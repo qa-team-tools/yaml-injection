@@ -1,0 +1,26 @@
+common:
+  variables:
+    job_name: sub_name
+    runner: main_runner
+    script: main
+job_1:
+  deep:
+    deep:
+      deep:
+        map:
+          both_files: both_files_value_from_main
+          main_only: main_only
+          sub_only: sub_only
+  only:
+  - release
+  script:
+  - make build
+  - make start
+job_2:
+  before_script:
+  - make prepare
+  except:
+  - tags
+  script:
+  - make build
+  - make start

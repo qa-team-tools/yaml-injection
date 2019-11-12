@@ -1,0 +1,15 @@
+sub_only: sub_only
+both_files: both_files_value_from_sub
+non_map_object:
+  - sub
+non_map_only_sub:
+  - sub_only
+both_files_map:
+  sub_only: sub_only
+  both_files: both_files_value_from_sub
+deep:
+  deep:
+    deep:
+      map:
+        sub_only: sub_only
+        both_files: both_files_value_from_sub

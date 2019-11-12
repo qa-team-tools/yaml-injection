@@ -1,0 +1,21 @@
+inject:
+  file: sub.yml
+
+common:
+  variables:
+    script: main
+    runner: main_runner
+
+job_1:
+  only:
+    - release
+  deep:
+    deep:
+      deep:
+        map:
+          main_only: main_only
+          both_files: both_files_value_from_main
+
+job_2:
+  before_script:
+    - make prepare
