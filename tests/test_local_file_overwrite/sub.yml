@@ -1,0 +1,25 @@
+common:
+  variables:
+    job_name: sub_name
+    script: sub
+
+job_1:
+  only:
+    - refs
+  script:
+    - make build
+    - make start
+  deep:
+    deep:
+      deep:
+        map:
+          sub_only: sub_only
+          both_files: both_files_value_from_sub
+
+
+job_2:
+  except:
+    - tags
+  script:
+    - make build
+    - make start

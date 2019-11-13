@@ -1,0 +1,21 @@
+both_files: both_files_value_from_main
+both_files_map:
+  both_files: both_files_value_from_main
+  main_only: main_only_value_from_main
+  sub_only: sub_only
+main_only: main_only
+sub_only: sub_only
+deep:
+  deep:
+    deep:
+      map:
+        main_only: main_only
+        both_files: both_files_value_from_main
+        sub_only: sub_only
+non_map_object:
+  - main
+non_map_only_main:
+  - main_only
+non_map_only_sub:
+  - sub_only
+

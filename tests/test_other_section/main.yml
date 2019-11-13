@@ -1,0 +1,29 @@
+sub:
+  sub_only: sub_only
+  both_files: both_files_value_from_sub
+  both_files_map:
+    sub_only: sub_only
+    both_files: both_files_value_from_sub
+  deep:
+    deep:
+      deep:
+        map:
+          sub_only: sub_only
+          both_files: both_files_value_from_sub
+
+
+
+main:
+  inject:
+    ref: sub
+  main_only: main_only
+  both_files: both_files_value_from_main
+  both_files_map:
+    both_files: both_files_value_from_main
+    main_only: main_only_value_from_main
+  deep:
+    deep:
+      deep:
+        map:
+          main_only: main_only
+          both_files: both_files_value_from_main
