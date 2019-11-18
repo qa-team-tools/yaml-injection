@@ -20,7 +20,7 @@ sections:
         - make start
 
 main:
-  inject:
+  !inject :
     ref: sections sub
 
   common:

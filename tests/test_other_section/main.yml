@@ -14,7 +14,7 @@ sub:
 
 
 main:
-  inject:
+  !inject :
     ref: sub
   main_only: main_only
   both_files: both_files_value_from_main

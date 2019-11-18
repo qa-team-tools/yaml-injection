@@ -13,18 +13,42 @@ with open(file_path) as in_:
 
 ### in yaml
 
-The key word is `inject`.
+The key word is `!inject`.
+
+There are two types of syntax: `simple` and `extended`.
+
+#### simple syntax
 
 ```yaml
-inject: 
-    file: path to file in local file system # or
-    url: public url with yaml file # or
-    ref: section subsection 
+!inject file: path to file in local file system
+```
+ 
+```yaml
+!inject ref: section subsection 
 ```
 
+ 
 `ref` is a keys leading to section separated by space.
 
 \* Yep it will works only if keys does not contain spaces.
+
+```yaml
+!inject url: public url with yaml file 
+```
+#### extended syntax 
+> **WARNING**: A SPACE SYMBOL AFTER `!inject` AND BEFORE `:` IS MANDATORY!!
+
+```yaml
+!inject : 
+    file: path to file in local file system
+    url: public url with yaml file 
+    ref: section subsection 
+```
+
+
+Both simple and extended syntax accept lists in `file`, `url` and `ref` sections.
+
+
 
 
 ## examples
@@ -54,8 +78,7 @@ deep:
 `main.yml`
 
 ```yaml
-inject:
-  file: sub.yml
+!inject file: sub.yml
 
 main_only: main_only
 both_files: both_files_value_from_main
@@ -126,7 +149,7 @@ sections:
         - make start
 
 main:
-  inject:
+  !inject :
     ref: sections sub
 
   common:
