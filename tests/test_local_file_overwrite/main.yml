@@ -1,4 +1,4 @@
-inject:
+!inject :
   file: sub.yml
 
 common:

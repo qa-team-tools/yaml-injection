@@ -1,4 +1,4 @@
-inject:
+!inject :
   file: sub.yml
 
 main_only: main_only

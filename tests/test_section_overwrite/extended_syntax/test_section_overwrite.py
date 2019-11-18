@@ -15,7 +15,7 @@ def in_current_dir():
 
 
 @pytest.mark.usefixtures('in_current_dir')
-def test_local_file():
+def test_section_overwrite():
     with open('main.yml') as in_:
         data = yaml.load(in_, InjectionLoader)
 

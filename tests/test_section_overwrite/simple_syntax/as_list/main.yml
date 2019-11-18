@@ -1,0 +1,37 @@
+sections:
+  sub:
+    common:
+      variables:
+        job_name: sub_name
+        script: sub
+
+    job_1:
+      only:
+        - refs
+      script:
+        - make build
+        - make start
+
+    job_2:
+      except:
+        - tags
+      script:
+        - make build
+        - make start
+
+main:
+  !inject ref:
+    - sections sub
+
+  common:
+    variables:
+      script: main
+      runner: main_runner
+
+  job_1:
+    only:
+      - release
+
+  job_2:
+    before_script:
+      - make prepare

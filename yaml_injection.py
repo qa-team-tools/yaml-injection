@@ -3,7 +3,7 @@ from copy import deepcopy
 
 import requests
 import yaml
-from yaml.constructor import ConstructorError
+from yaml.constructor import ConstructorError, SafeConstructor
 
 
 class InjectionLoader(yaml.SafeLoader):
@@ -20,8 +20,14 @@ class InjectionLoader(yaml.SafeLoader):
             return self.construct_document(node)
         return None
 
-    def _inject(self, mapping, value_node):
-        sources = self.construct_mapping(value_node)
+    def _inject(self, mapping, value_node, source=None):
+        if source:
+            items = self.construct_object(value_node)
+            if not isinstance(items, list):
+                items = [items]
+            sources = {source: items}
+        else:
+            sources = self.construct_mapping(value_node)
         if 'file' in sources:
             files = sources['file']
             if not isinstance(files, list):
@@ -72,8 +78,8 @@ class InjectionLoader(yaml.SafeLoader):
             if not isinstance(key, collections.abc.Hashable):
                 raise ConstructorError('while constructing a mapping', node.start_mark,
                                        'found unhashable key', key_node.start_mark)
-            if key == 'inject':
-                self._inject(mapping, value_node)
+            if key_node.tag == '!inject':
+                self._inject(mapping, value_node, source=key)
             elif key in mapping and isinstance(value_node, yaml.MappingNode):
                 generator = self.construct_yaml_map_prepared(value_node, mapping[key])
                 mapping[key] = next(generator)
@@ -117,3 +123,10 @@ class InjectionLoader(yaml.SafeLoader):
         if node is self.main_node:
             self.data = data
         return data
+
+
+def dummy(a, b):
+    pass
+
+
+InjectionLoader.add_constructor('!inject', SafeConstructor.construct_yaml_str)
