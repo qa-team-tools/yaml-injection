@@ -7,10 +7,17 @@ from yaml.constructor import ConstructorError, SafeConstructor
 
 
 class InjectionLoader(yaml.SafeLoader):
-    def __init__(self, stream):
+    def __init__(self, stream, auth=None):
         super().__init__(stream)
         self.data = None
         self.main_node = None
+        self.auth = auth
+
+    @classmethod
+    def authorized_loader(cls, auth):
+        def create_authorized_loader(stream):
+            return cls(stream, auth)
+        return create_authorized_loader
 
     def get_single_data(self):
         # Ensure that the stream contains a single document and construct it.
@@ -42,7 +49,7 @@ class InjectionLoader(yaml.SafeLoader):
             if not isinstance(urls, list):
                 urls = [urls]
             for url in urls:
-                r = requests.get(url)
+                r = requests.get(url, auth=self.auth)
                 r.raise_for_status()
                 data = yaml.load(r.text, self.__class__)
                 mapping.update(data)
